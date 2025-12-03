@@ -19,12 +19,43 @@ def anonymize_name(name):
     return "Testperson_XXX"
 
 def mask_email(email):
-    """Maskerar e-post för felsökning"""
-    if email and "@" in email:
-        parts = email.split("@")
-        if len(parts[0]) > 2:
-            return parts[0][:2] + "*" * (len(parts[0])-2) + "@" + parts[1]
-    return email
+    """Maskerar e-postadresser.
+
+    Regler:
+    - Returnerar originalvärdet om det inte ser ut som en e-postadress.
+    - Behåller domänen oförändrad.
+    - För lokaldelen används följande beteende:
+      * length == 0: "*"
+      * length == 1: keep first char + "*"
+      * length == 2: keep first char + "*"
+      * length >= 3: keep first and last char, ersätt mitten med stjärnor
+    - Behandlar plus-adresser (t.ex. "user+tag@example.com") genom att maskera basdelen men behålla "+tag".
+    """
+    if not email or "@" not in email:
+        return email
+
+    email = email.strip()
+    local, domain = email.rsplit("@", 1)
+
+    # Hantera plus-adresser (user+tag)
+    plus_part = ""
+    if "+" in local:
+        base, tag = local.split("+", 1)
+        plus_part = "+" + tag
+    else:
+        base = local
+
+    blen = len(base)
+    if blen == 0:
+        masked_base = "*"
+    elif blen == 1:
+        masked_base = base[0] + "*"
+    elif blen == 2:
+        masked_base = base[0] + "*"
+    else:
+        masked_base = base[0] + ("*" * (blen - 2)) + base[-1]
+
+    return f"{masked_base}{plus_part}@{domain}"
 
 def create_safe_test_data():
     """Skapar GDPR-säker testdata för automatiserade tester"""
@@ -44,7 +75,7 @@ def create_safe_test_data():
         safe_customer = {
             "name": anonymize_name(customer["name"]),
             "personal_id": mask_personal_id(customer["personal_id"]),
-            "email": f"user{i}@testcompany.example"
+            "email": mask_email(customer.get("email"))
         }
         safe_test_data.append(safe_customer)
     
