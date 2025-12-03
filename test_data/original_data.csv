@@ -1,0 +1,4 @@
+name,personal_id,email,diagnosis,status
+Anna Andersson,19850101-1234,anna.andersson@example.com,Diabetes,🔒 KRYPTERAD
+Lars Larsson,19780214-5678,lars.larsson@example.com,Hjärtsjukdom,🔒 KRYPTERAD
+Eva Eriksson,19901224-9012,eva.eriksson@example.com,Astma,🔒 KRYPTERAD

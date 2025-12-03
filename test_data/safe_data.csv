@@ -1,0 +1,5 @@
+name,personal_id,email,diagnosis,status
+Testperson_e5097140,1985*********,user1@testcompany.example,Testdiagnos,✅ SÄKER FÖR TEST
+Testperson_f837a92f,1978*********,user2@testcompany.example,Testdiagnos,✅ SÄKER FÖR TEST
+Testperson_4e627c10,1990*********,user3@testcompany.example,Testdiagnos,✅ SÄKER FÖR TEST
+Testperson_9fb9e56e,1983*********,user4@testcompany.example,Testdiagnos,✅ SÄKER FÖR TEST
